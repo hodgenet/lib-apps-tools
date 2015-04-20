@@ -1,6 +1,6 @@
 #!/usr/bin/perl
 
-## 	This script splits a MARC file based on a specified criterion, in this case wether it has an 050 or not	
+## 	This script fixes bad 050s in a MARC file, looking for missing Cutters and creating them from a table
 ##	
 ##	
 ##	
