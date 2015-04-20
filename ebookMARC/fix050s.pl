@@ -1,4 +1,4 @@
-#!/usr/bin/perl
+#!/usr/bin/env perl
 
 ## 	This script fixes bad 050s in a MARC file, looking for missing Cutters and creating them from a table
 ##	

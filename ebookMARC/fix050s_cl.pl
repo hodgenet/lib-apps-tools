@@ -1,4 +1,4 @@
-#!/usr/bin/perl
+#!/usr/bin/env perl
 
 ## 	This script splits a MARC file based on a specified criterion, in this case wether it has an 050 or not	
 ##	

@@ -1,4 +1,4 @@
-#!/usr/bin/perl
+#!/usr/bin/env perl
 
 ##	This script opens the SerSol.mrc MARC file and the MARCPriority.xml files.  It reads the MARCPriority.xml
 ##	file to determine the next best source of records to enrich the SerSol.mrc records.  If the next source
