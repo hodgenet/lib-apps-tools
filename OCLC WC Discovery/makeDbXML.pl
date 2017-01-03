@@ -2,7 +2,7 @@
 ##-w
 
 use strict;
-use lib '/home/apache/OCLCMods/';
+use lib '/path/to/OCLC Auth Modules/';
 use OCLCAuth qw(:All);
 use OCLCCred;
 use LWP::UserAgent;
@@ -362,7 +362,7 @@ my @mainValues = ($writer,$output,$auspref,$dcpref,$dctermspref,$xsipref);
 
 
 ## Get the record data
-my $parmfile = '/home/apache/.params/LicAPIParms.txt';				## module will need to accept parameters - wskey, secret, principalID, principalIDNS
+my $parmfile = '/path/to/param/file.txt';				## module will need to accept parameters - wskey, secret, principalID, principalIDNS
 										## auth registryID, context registryID, datacenter
 my %instParams = %{get_ip(\$parmfile)};
 
