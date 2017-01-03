@@ -12,6 +12,12 @@ use XML::Parser;                                                        #       
 use XML::SimpleObject;                                                  #       Simple Object to handle the actual records
 use IO::File;                                                           #       for actual ouput^M
 
+## This script is builds two files: 1) an xml dublin core file containing records of your WC Knowledgebase Collections, and 2) a delimited
+## file suitable for loading into libguides as a resource file.  It does this by using the License Manager Beta API and doing a full list of 
+## of all licenses, parsing them to get the descriptions and the associated collections id, then retrieving each collection record, and 
+## writing records for it to the delimited and xml files.  We use the XML file with an XSL sheet to build website database pages,
+## though we're looking at just using the Libguide A-Z pages
+
 
 ########################		 subroutine to normalize a title		################################
 
@@ -408,3 +414,4 @@ $writer->endTag([$auspref, "metadata"]);			#	close the beginning tag for the fil
 print $output "\n";
 $writer->end();							#	Do the writer output to the file 
 $output->close();						#	close the output file
+
