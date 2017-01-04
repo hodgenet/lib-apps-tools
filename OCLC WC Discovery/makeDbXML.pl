@@ -225,7 +225,7 @@ print OUT "URL : $thisCollectionUrl\n";
 		 $licID,$licName,$licDescription,$thisCollectionID,$thisCollectionName,$thisCollectionUrl,$summary,$staff_notes,$public_notes);
 	 	writeResourceRec(\@allValues);  ## local values
 		if ( $localstem eq 'false' ) { $localstem = 0; } else { $localstem = 1; }
-print LIBG "$provider_name\t$thisCollectionName\t$thisCollectionUrl\t$localstem\t$libGDesc\tcontent_id\n";
+print LIBG "$provider_name\t$thisCollectionName\t$thisCollectionUrl\t$localstem\t$libGDesc\t\n";
 	}
 }
 
