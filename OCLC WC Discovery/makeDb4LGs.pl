@@ -170,9 +170,9 @@ foreach my $link ( $xso->child('entry')->child('link') )  {
 my $summary = ''; my $content_id = '';
 if ( defined $xso->child('entry')->child('summary') ) {
 	$summary = $xso->child('entry')->child('summary')->value;
-	if ( $summary =~ /content_id:([\d]{6,10}) ) {
+	if ( $summary =~ /content_id:([\d]{6,10})/ ) {
 		$content_id = $1;
-		$summary =~ s/$1//;
+		$summary =~ s/content_id:$1//;
 	}
 }
 
