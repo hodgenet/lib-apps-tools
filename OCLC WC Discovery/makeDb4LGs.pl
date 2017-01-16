@@ -7,10 +7,8 @@ use OCLCAuth qw(:All);
 use OCLCCred;
 use LWP::UserAgent;
 use Data::Dumper;
-#use XML::Writer;
 use XML::Parser;                                                        #       use Parser to read the XML file,
 use XML::SimpleObject;                                                  #       Simple Object to handle the actual records
-##use IO::File;                                                           #       for actual ouput^M
 
 ## This script is builds two files: 1) an xml dublin core file containing records of your WC Knowledgebase Collections, and 2) a delimited
 ## file suitable for loading into libguides as a resource file.  It does this by using the License Manager Beta API and doing a full list of 
@@ -97,8 +95,6 @@ binmode LIBG, ":utf8";
 print LIBG "vendor\tname\turl\tenable_proxy\tdescription\tcontent_id\n";
 
 	my $apiRecord = ${$_[0]}; 
-#	my ( $writer,$output,$auspref,$dcpref,$dctermspref,$xsipref) = @{$_[1]};	## values from Main
-
 	my $totalResults = 0; my $theseItemsPerPage;
 	my $parser = new XML::Parser(ErrorContext => 1,                       #       Create the parser, parse records as a tree
                            Style => "Tree");
@@ -127,7 +123,6 @@ print OUT "\tCollection Name :\t$thisCollectionName\t";
 
 		## TODO Store these in a data structure for collections
 		my $thisXMLCollectionRecord = getCollectionRecord(\$thisCollectionID);	## call getCollectionRecord
-##		my (%thisCollectionRecord) = %{parseCollectionRecord(\$thisCollectionRecord));
 		my $thisCollectionUrl = ''; my $summary = ''; my $content_id = ''; my $owner_institution = ''; my $source_institution = ''; 
 		my $staff_notes = ''; my $public_notes = ''; my $provider_name = ''; my $localstem = '';
 		($thisCollectionUrl,$summary,$content_id,$public_notes,$staff_notes,$owner_institution,$source_institution,$provider_name,$localstem) = parseCollectionRecord(\$thisXMLCollectionRecord);
@@ -139,9 +134,6 @@ print OUT "URL : $thisCollectionUrl\n";
 		if ( $source_institution ne '' ) { print OUT "\tSource Inst: \t$source_institution\n"; } else { print OUT "\n"; }
 		if ( $staff_notes ne '' ) { print OUT "\tStaff Notes: \t$staff_notes\n"; } else { print OUT "\n"; }
 		if ( $public_notes ne '' ) { print OUT "\tPublic Notes: \t$public_notes\n\n"; } else { print OUT "\n"; }
-##		my @allValues = ($writer,$output,$auspref,$dcpref,$dctermspref,$xsipref,						## values from Main
-##		 $licID,$licName,$licDescription,$thisCollectionID,$thisCollectionName,$thisCollectionUrl,$summary,$staff_notes,$public_notes);
-##	 	writeResourceRec(\@allValues);  ## local values
 		if ( $localstem eq 'false' ) { $localstem = 0; } else { $localstem = 1; }
 print LIBG "$provider_name\t$thisCollectionName\t$thisCollectionUrl\t$localstem\t$libGDesc\t$content_id\n";
 	}
