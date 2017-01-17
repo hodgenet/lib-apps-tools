@@ -1,7 +1,7 @@
 #!/usr/bin/perl 
 
 use strict;
-use lib '/home/apache/OCLCMods/';
+use lib '/path/to/OCLC Auth Mods/';
 use OCLCAuth qw(:All);
 use OCLCCred;
 use LWP::UserAgent;
@@ -129,7 +129,7 @@ sub getCollectionRecord {
 
 my $collectionID = ${$_[0]}; my $collectionName = ${$_[1]}; 
 
-my $parmfile = '/home/apache/.params/APIParms.txt';				## module will need to accept parameters - key, secret, principalID, registryID, principalIDNS.  Need to be stored securely
+my $parmfile = '/path/to/param/file.txt';				## module will need to accept parameters - key, secret, principalID, registryID, principalIDNS.  Need to be stored securely
 
 my %instParams = %{get_ip(\$parmfile)};
 my $wskey = $instParams{'wskey'};
@@ -157,7 +157,8 @@ return ($apiRecord);
 
 
 ## Get the record data
-my $parmfile = '/home/apache/.params/LicAPIParms.txt';				## module will need to accept parameters - wskey, secret, principalID, principalIDNS
+my $parmfile = '/path/to/param/file.txt';
+				## module will need to accept parameters - wskey, secret, principalID, principalIDNS
 										## auth registryID, context registryID, datacenter
 my %instParams = %{get_ip(\$parmfile)};
 
