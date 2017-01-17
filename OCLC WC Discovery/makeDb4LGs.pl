@@ -230,9 +230,7 @@ sub getCollectionRecord {
 
 my $collectionID = ${$_[0]}; my $collectionName = ${$_[1]}; 
 
-##my $institutionID = '87830'; TODO Delete me later
-
-my $parmfile = '/home/apache/.params/APIParms.txt';				## module will need to accept parameters - key, secret, principalID, registryID, principalIDNS.  Need to be stored securely
+my $parmfile = '/path/to/param/file.txt';				## module will need to accept parameters - key, secret, principalID, registryID, principalIDNS.  Need to be stored securely
 ##my ($key,$secret,$principalID,$principalIDNS,$registryID,$regionHost) = &getAPIParams(\$parmfile);
 my %instParams = %{get_ip(\$parmfile)};
 my $wskey = $instParams{'wskey'};
