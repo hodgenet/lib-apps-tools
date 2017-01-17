@@ -120,13 +120,16 @@ print OUT "$licDescription\n\n";
 		if ( defined $collection->child('provider') ) { $thisCollectionProvider = $collection->child('provider')->value; }
 
 print OUT "\tCollection Name :\t$thisCollectionName\t";
+print "\tCollection ID :\t$thisCollectionID\t";
+print "\tCollection Name :\t$thisCollectionName\t";
 
 		## TODO Store these in a data structure for collections
-		my $thisXMLCollectionRecord = getCollectionRecord(\$thisCollectionID);	## call getCollectionRecord
+		my $thisXMLCollectionRecord = getCollectionRecord(\$thisCollectionID,\$thisCollectionName);	## call getCollectionRecord
 		my $thisCollectionUrl = ''; my $summary = ''; my $content_id = ''; my $owner_institution = ''; my $source_institution = ''; 
 		my $staff_notes = ''; my $public_notes = ''; my $provider_name = ''; my $localstem = '';
 		($thisCollectionUrl,$summary,$content_id,$public_notes,$staff_notes,$owner_institution,$source_institution,$provider_name,$localstem) = parseCollectionRecord(\$thisXMLCollectionRecord);
 print OUT "URL : $thisCollectionUrl\n";
+print "Content ID in parseLicense: $content_id\n";
 		my $libGDesc = '';
 		if ( $summary ne '' ) { print OUT "\tCollection Summary: \t$summary\n\n"; $libGDesc = $summary; } else { print OUT "\n"; $libGDesc = $licDescription; }
 		if ( $content_id ne '' ) { print OUT "\tContentID: \t$content_id\n"; } else { print OUT "\n"; }
@@ -166,7 +169,7 @@ foreach my $link ( $xso->child('entry')->child('link') )  {
 	}
 
 }
-
+print " URL in parseCollection: $collectionUrl\n";
 my $summary = ''; my $content_id = '';
 if ( defined $xso->child('entry')->child('summary') ) {
 	$summary = $xso->child('entry')->child('summary')->value;
@@ -175,7 +178,10 @@ if ( defined $xso->child('entry')->child('summary') ) {
 		$summary =~ s/content_id:$1//;
 	}
 }
-
+print "\n";
+print "CollectionID in parseCollection : $content_id\n";
+print "Summary in parseCollection : $summary\n";
+print "\n";
 my $staff_notes = '';
 if ( defined $xso->child('entry')->child('kb:collection_staff_notes') ) {
 	$staff_notes = $xso->child('entry')->child('kb:collection_staff_notes')->value;
@@ -222,14 +228,19 @@ return ($collectionUrl,$summary,$content_id,$public_notes,$staff_notes,$owner_in
 
 sub getCollectionRecord {
 
-my $collectionID = ${$_[0]};
+my $collectionID = ${$_[0]}; my $collectionName = ${$_[1]}; 
+
+##my $institutionID = '87830'; TODO Delete me later
 
 my $parmfile = '/home/apache/.params/APIParms.txt';				## module will need to accept parameters - key, secret, principalID, registryID, principalIDNS.  Need to be stored securely
 ##my ($key,$secret,$principalID,$principalIDNS,$registryID,$regionHost) = &getAPIParams(\$parmfile);
 my %instParams = %{get_ip(\$parmfile)};
 my $wskey = $instParams{'wskey'};
+my $institutionID = $instParams{'contextInstitutionId'};
 
-my $apiURL = 'https://worldcat.org/webservices/kb/rest/collections/'.$collectionID;		## for KB Manager API
+my $apiURL = 'https://worldcat.org/webservices/kb/rest/collections/'.$collectionID.','.$institutionID;		## for KB Manager API
+#my $apiURL = 'https://worldcat.org/webservices/kb/rest/collections/seach?intitution_uid='.$institutionID.'&collection_uid='.$collectionID;		## for KB Manager API
+
 my %queryParams = ('wskey'=>"$wskey");						## for APIs that use WSKEY query paramete
 my $ua = LWP::UserAgent->new;
 $ua->timeout(20);
