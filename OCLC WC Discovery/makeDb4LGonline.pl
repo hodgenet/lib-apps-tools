@@ -15,6 +15,21 @@ use XML::SimpleObject;                                                  #       
 ## each collection record, and writing records for it to the delimited file.  We plan to use the Libguide A-Z pages to replace the XML based pages
 
 
+######## makeTime       #######
+
+sub makeTime {
+
+my ($sec,$min,$hour,$mday,$mon,$year,$wday,$yday,$isdst,$fileTime);
+
+($sec,$min,$hour,$mday,$mon,$year,$wday,$yday,$isdst) = localtime(${$_[0]});
+
+$fileTime = ($year+1900).'-'.($mon+1).'-'.$mday."  $hour:$min";
+
+return ($fileTime);
+
+}
+
+
 ######## parseURL       ########
 
 sub parseURL {
@@ -172,7 +187,7 @@ return ($apiRecord);
 
 sub printHTML {                                                 #       pass in middle bit
 
-my ();
+my ($dirList);
 
 my $directory = './tmp/';					## Make a listing of the files for download	
    opendir (DIR, $directory) or die $!;
@@ -241,7 +256,7 @@ my $APIService = 'WMS_LMAN';
 my $accessToken = request_at_ccg(\$APIService,\%instParams);			## TODO add some code to keep track of expiration
 my $atAuthHeader = make_atah(\$accessToken);
 
-open (LIBG, ">> ./libguideFile.txt") or die $!;
+open (LIBG, "> ./tmp/libguideFile.txt") or die $!;
 binmode LIBG, ":utf8";
 
 print LIBG "vendor\tname\turl\tenable_proxy\tdescription\tcontent_id\n";
