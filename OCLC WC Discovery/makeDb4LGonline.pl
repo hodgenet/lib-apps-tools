@@ -94,7 +94,7 @@ return ($totalResults);
 ############   ############
 
 ## Information required : Name, Description, url, collections, subjects, full text indicator,  ?
-NO
+
 sub parseCollectionRecord {
 
 my $collectionXMLRecord = ${$_[0]}; my %collectionRecord = ();
