@@ -126,20 +126,13 @@ if ( defined $xso->child('entry')->child('kb:collection_staff_notes') ) {
 }
 
 my $public_notes = ''; my $more_info = '';
-if ( defined $xso->child('entry')->child('kb:collection_public_notes') ) {
-	$public_notes = $xso->child('entry')->child('kb:collection_public_notes')->value;
-	if ( $public_notes != '' ) {
+if ( defined $xso->child('entry')->child('kb:collection_user_notes') ) {
+	$public_notes = $xso->child('entry')->child('kb:collection_user_notes')->value;
+	if ( $public_notes =~ /[a-zA-Z0-9]{1,}/ ) {
 		$more_info = 'NOTE: '.$public_notes;
 	} else {
 		$more_info = '';
 	}
-}
-
-
-
-my $public_notes = '';
-if ( defined $xso->child('entry')->child('kb:collection_user_notes') ) {
-	$public_notes = $xso->child('entry')->child('kb:collection_user_notes')->value;
 }
 
 my $owner_institution = '';
