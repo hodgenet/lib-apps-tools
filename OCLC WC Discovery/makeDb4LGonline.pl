@@ -133,7 +133,7 @@ if ( defined $xso->child('entry')->child('kb:collection_public_notes') ) {
 #		$public_notes =~ s/$1//;
 #	}
 }
-$more_info = $public_notes;
+$more_info = 'NOTE: '.$public_notes;
 
 
 my $public_notes = '';
