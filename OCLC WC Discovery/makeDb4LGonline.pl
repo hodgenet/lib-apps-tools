@@ -75,14 +75,15 @@ foreach my $entry ( $xso->child('feed')->child('entry') )  {
 
 		## TODO Store these in a data structure for collections
 		my $thisXMLCollectionRecord = getCollectionRecord(\$thisCollectionID,\$thisCollectionName);	## call getCollectionRecord
-		my $thisCollectionUrl = ''; my $summary = ''; my $content_id = ''; my $owner_institution = ''; my $source_institution = ''; 
+		my $thisCollectionUrl = ''; my $summary = ''; my $more_info = '';  my $content_id = ''; 
+		my $owner_institution = ''; my $source_institution = ''; 
 		my $staff_notes = ''; my $public_notes = ''; my $provider_name = ''; my $localstem = '';
-		($thisCollectionUrl,$summary,$content_id,$public_notes,$staff_notes,$owner_institution,$source_institution,$provider_name,$localstem) = parseCollectionRecord(\$thisXMLCollectionRecord);
+		($thisCollectionUrl,$summary,$more_info$content_id,$public_notes,$staff_notes,$owner_institution,$source_institution,$provider_name,$localstem) = parseCollectionRecord(\$thisXMLCollectionRecord);
 
 		my $libGDesc = '';
 		if ( $summary ne '' ) { $libGDesc = $summary; } else { $libGDesc = $licDescription; }
 		if ( $localstem eq 'false' ) { $localstem = 0; } else { $localstem = 1; }
-		print LIBG "$provider_name\t$thisCollectionName\t$thisCollectionUrl\t$localstem\t$libGDesc\t$content_id\n";
+		print LIBG "$provider_name\t$thisCollectionName\t$thisCollectionUrl\t$localstem\t$libGDesc\t$more_info\t$content_id\n";
 	}
 }
 
@@ -124,6 +125,17 @@ if ( defined $xso->child('entry')->child('kb:collection_staff_notes') ) {
 	}
 }
 
+my $public_notes = ''; my $more_info = '';
+if ( defined $xso->child('entry')->child('kb:collection_public_notes') ) {
+	$public_notes = $xso->child('entry')->child('kb:collection_public_notes')->value;
+#	if ( $public_notes =~ /([.]{1,3000})/ ) {
+#		$more_info = $1;
+#		$public_notes =~ s/$1//;
+#	}
+}
+$more_info = $public_notes;
+
+
 my $public_notes = '';
 if ( defined $xso->child('entry')->child('kb:collection_user_notes') ) {
 	$public_notes = $xso->child('entry')->child('kb:collection_user_notes')->value;
@@ -149,7 +161,7 @@ if ( defined $xso->child('entry')->child('kb:localstem') ) {
 	$localstem = $xso->child('entry')->child('kb:localstem')->value;
 }
 
-return ($collectionUrl,$summary,$content_id,$public_notes,$staff_notes,$owner_institution,$source_institution,$provider_name,$localstem);
+return ($collectionUrl,$summary,$more_info,$content_id,$public_notes,$staff_notes,$owner_institution,$source_institution,$provider_name,$localstem);
 
 }
 
@@ -259,7 +271,7 @@ my $atAuthHeader = make_atah(\$accessToken);
 open (LIBG, "> ./tmp/libguideFile.txt") or die $!;
 binmode LIBG, ":utf8";
 
-print LIBG "vendor\tname\turl\tenable_proxy\tdescription\tcontent_id\n";
+print LIBG "vendor\tname\turl\tenable_proxy\tdescription\tmore_info\tcontent_id\n";
 
 ############## Set the request ###################
 
