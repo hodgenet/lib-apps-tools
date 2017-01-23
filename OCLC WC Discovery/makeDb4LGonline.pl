@@ -78,7 +78,7 @@ foreach my $entry ( $xso->child('feed')->child('entry') )  {
 		my $thisCollectionUrl = ''; my $summary = ''; my $more_info = '';  my $content_id = ''; 
 		my $owner_institution = ''; my $source_institution = ''; 
 		my $staff_notes = ''; my $public_notes = ''; my $provider_name = ''; my $localstem = '';
-		($thisCollectionUrl,$summary,$more_info$content_id,$public_notes,$staff_notes,$owner_institution,$source_institution,$provider_name,$localstem) = parseCollectionRecord(\$thisXMLCollectionRecord);
+		($thisCollectionUrl,$summary,$more_info,$content_id,$public_notes,$staff_notes,$owner_institution,$source_institution,$provider_name,$localstem) = parseCollectionRecord(\$thisXMLCollectionRecord);
 
 		my $libGDesc = '';
 		if ( $summary ne '' ) { $libGDesc = $summary; } else { $libGDesc = $licDescription; }
@@ -94,7 +94,7 @@ return ($totalResults);
 ############   ############
 
 ## Information required : Name, Description, url, collections, subjects, full text indicator,  ?
-
+NO
 sub parseCollectionRecord {
 
 my $collectionXMLRecord = ${$_[0]}; my %collectionRecord = ();
@@ -128,12 +128,13 @@ if ( defined $xso->child('entry')->child('kb:collection_staff_notes') ) {
 my $public_notes = ''; my $more_info = '';
 if ( defined $xso->child('entry')->child('kb:collection_public_notes') ) {
 	$public_notes = $xso->child('entry')->child('kb:collection_public_notes')->value;
-#	if ( $public_notes =~ /([.]{1,3000})/ ) {
-#		$more_info = $1;
-#		$public_notes =~ s/$1//;
-#	}
+	if ( $public_notes != '' ) {
+		$more_info = 'NOTE: '.$public_notes;
+	} else {
+		$more_info = '';
+	}
 }
-$more_info = 'NOTE: '.$public_notes;
+
 
 
 my $public_notes = '';
